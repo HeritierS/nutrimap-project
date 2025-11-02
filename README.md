@@ -1,3 +1,13 @@
+# Assignement Deliverables
+
+# Demo Video Link 
+
+Part One: https://www.loom.com/share/04a3df237d9c4102b4133854e3178073
+
+Part Two: https://www.loom.com/share/8aa08464f04a4457bfcb945da25160c9
+
+# Deployement Link: 
+
 # NutriMap — Setup & Demo Users
 
 This document explains how to clone, set up, run, and test the NutriMap project locally (backend + frontend). It also lists the demo users created by the seed script so you can sign in quickly during development.
