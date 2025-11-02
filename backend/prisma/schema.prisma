@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  password  String
+  role      Role       @default(chw)
+  isActive  Boolean    @default(false)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime?  @updatedAt
+  children  Child[]    @relation("creator_children")
+  FollowUp  FollowUp[]
+}
+
+model Child {
+  id                String     @id @default(uuid())
+  localId           String     @unique
+  name              String
+  motherName        String
+  dob               DateTime
+  sex               Sex
+  address           String
+  latitude          Float
+  longitude         Float
+  complications     String?
+  createdById       String
+  createdBy         User       @relation(fields: [createdById], references: [id], name: "creator_children", onDelete: Cascade)
+  initialRecordedAt DateTime
+  initialWeightKg   Float
+  initialHeightCm   Float
+  initialHeadCircCm Float?
+  followUps         FollowUp[]
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime?  @updatedAt
+}
+
+model FollowUp {
+  id          String   @id @default(uuid())
+  childId     String
+  child       Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  recordedAt  DateTime
+  weightKg    Float
+  heightCm    Float
+  headCircCm  Float?
+  collectorId String
+  collector   User     @relation(fields: [collectorId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+enum Role {
+  admin
+  chw
+  nutritionist
+}
+
+enum Sex {
+  male
+  female
+}

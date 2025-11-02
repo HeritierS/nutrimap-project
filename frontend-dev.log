@@ -1,0 +1,441 @@
+﻿
+> vite_react_shadcn_ts@0.0.0 dev
+> vite
+
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m572[22m[2m[0m ms[22m
+
+  [32mΓ₧£[39m  [1mLocal[22m:   [36mhttp://localhost:[1m8080[22m/[39m
+  [32mΓ₧£[39m  [1mNetwork[22m: [36mhttp://192.168.1.66:[1m8080[22m/[39m
+[2m[32m  Γ₧£[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
+[2m4:57:12 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.tsx, /src/index.css[22m
+[2m4:57:12 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.tsx, /src/index.css[22m
+[2m4:57:16 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.tsx, /src/index.css[22m
+[2m4:58:21 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.tsx, /src/index.css, /src/pages/ChildrenListPage.tsx, /src/pages/MapViewPage.tsx, /src/pages/NewChildPage.tsx, /src/pages/ChildDetailPage.tsx, /src/pages/AdminUsersPage.tsx, /src/lib/auth.tsx, /src/pages/ProfilePage.tsx, /src/pages/ReportsPage.tsx[22m
+[2m4:58:21 PM[22m [36m[1m[vite][22m[39m [33mhmr invalidate [39m[2m/src/lib/auth.tsx[22m Could not Fast Refresh ("useAuth" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react-swc#consistent-components-exports
+[2m4:58:21 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/pages/DashboardPage.tsx, /src/pages/LoginPage.tsx, /src/pages/ChildrenListPage.tsx, /src/pages/NewChildPage.tsx, /src/pages/ProfilePage.tsx, /src/components/ProtectedRoute.tsx, /src/components/Topbar.tsx, /src/components/Sidebar.tsx[22m
+[2m4:58:43 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.tsx, /src/index.css, /src/pages/ChildrenListPage.tsx, /src/pages/MapViewPage.tsx, /src/pages/NewChildPage.tsx, /src/pages/ChildDetailPage.tsx, /src/pages/AdminUsersPage.tsx, /src/lib/auth.tsx, /src/pages/ProfilePage.tsx, /src/pages/ReportsPage.tsx[22m
+node.exe : [2m4:58:43 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) 
+requires parens when mixing with logical operators
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([2m4:58:43 PM...gical operators:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:43 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:43 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:43 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:43 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:43 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:43 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:43 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:43 PM[22m [31m[1m[vite][22m[39m [31mInternal server error:   x Nullish coalescing operator(??) requires 
+parens when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error[39m
+  Plugin: [35mvite:react-swc[39m
+  File: [36mC:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts[39m
+  
+[2m4:58:43 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:50 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.tsx, /src/index.css, /src/pages/ChildrenListPage.tsx, /src/pages/MapViewPage.tsx, /src/pages/NewChildPage.tsx, /src/pages/ChildDetailPage.tsx, /src/pages/AdminUsersPage.tsx, /src/lib/auth.tsx, /src/pages/ProfilePage.tsx, /src/pages/ReportsPage.tsx[22m
+[2m4:58:50 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:50 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:50 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:50 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:50 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:50 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:50 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:50 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:50 PM[22m [31m[1m[vite][22m[39m [31mInternal server error:   x Nullish coalescing operator(??) requires 
+parens when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error[39m
+  Plugin: [35mvite:react-swc[39m
+  File: [36mC:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts[39m
+  
+[2m4:58:50 PM[22m [31m[1m[vite][22m[39m Pre-transform error:   x Nullish coalescing operator(??) requires parens 
+when mixing with logical operators
+    ,-[C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/api.ts:51:1]
+ 48 |   return {
+ 49 |     id: raw.id,
+ 50 |     name: raw.name,
+ 51 |     motherName: raw.motherName ?? raw.mother_name ?? raw.mother || '',
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     dob: raw.dob ?? raw.dateOfBirth ?? raw.birthDate,
+ 53 |     sex: raw.sex ?? raw.gender,
+ 53 |     address: raw.address ?? raw.location ?? '',
+    `----
+
+
+Caused by:
+    Syntax Error
+[2m4:58:53 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.tsx, /src/index.css, /src/pages/ChildrenListPage.tsx, /src/pages/MapViewPage.tsx, /src/pages/NewChildPage.tsx, /src/pages/ChildDetailPage.tsx, /src/pages/AdminUsersPage.tsx, /src/lib/auth.tsx, /src/pages/ProfilePage.tsx, /src/pages/ReportsPage.tsx[22m
+[2m4:58:53 PM[22m [36m[1m[vite][22m[39m [33mhmr invalidate [39m[2m/src/lib/auth.tsx[22m Could not Fast Refresh ("useAuth" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react-swc#consistent-components-exports
+[2m4:58:53 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/pages/DashboardPage.tsx, /src/pages/LoginPage.tsx, /src/pages/ChildrenListPage.tsx, /src/pages/NewChildPage.tsx, /src/pages/ProfilePage.tsx, /src/components/ProtectedRoute.tsx, /src/components/Topbar.tsx, /src/components/Sidebar.tsx[22m
+[2m4:58:57 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.tsx, /src/index.css, /src/pages/ChildrenListPage.tsx, /src/pages/MapViewPage.tsx, /src/pages/NewChildPage.tsx, /src/pages/ChildDetailPage.tsx, /src/pages/AdminUsersPage.tsx, /src/lib/auth.tsx, /src/pages/ProfilePage.tsx, /src/pages/ReportsPage.tsx[22m
+[2m4:58:58 PM[22m [36m[1m[vite][22m[39m [33mhmr invalidate [39m[2m/src/lib/auth.tsx[22m Could not Fast Refresh ("useAuth" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react-swc#consistent-components-exports
+[2m4:58:58 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/pages/DashboardPage.tsx, /src/pages/LoginPage.tsx, /src/pages/ChildrenListPage.tsx, /src/pages/NewChildPage.tsx, /src/pages/ProfilePage.tsx, /src/components/ProtectedRoute.tsx, /src/components/Topbar.tsx, /src/components/Sidebar.tsx[22m
+[2m5:03:45 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m5:03:45 PM[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to load url /src/lib/mockData.ts (resolved 
+id: C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/lib/mockData.ts) in 
+C:/Users/jules/Desktop/NUTRIMAP/nutri-map FrontEnd/src/App.tsx. Does the file exist?
+[2m5:09:34 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MapViewPage.tsx, /src/index.css[22m
+[2m5:10:00 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m5:10:56 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildrenListPage.tsx, /src/index.css[22m
+[2m5:11:11 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildrenListPage.tsx, /src/index.css[22m
+[2m5:11:21 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildrenListPage.tsx, /src/index.css[22m
+[2m5:11:44 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ReportsPage.tsx, /src/index.css[22m
+[2m5:12:02 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildrenListPage.tsx, /src/index.css[22m
+[2m5:12:11 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ReportsPage.tsx, /src/index.css[22m
+[2m5:12:23 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m5:12:45 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m5:13:02 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m5:13:28 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildrenListPage.tsx, /src/index.css[22m
+[2m5:13:29 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m5:13:29 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ReportsPage.tsx, /src/index.css[22m
+[2m5:13:29 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MapViewPage.tsx, /src/index.css[22m
+[2m5:17:29 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m5:17:29 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m5:17:48 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m5:30:37 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/NewChildPage.tsx, /src/index.css[22m
+[2m5:30:59 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/NewChildPage.tsx, /src/index.css[22m
+[2m5:32:40 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.tsx, /src/index.css, /src/pages/ChildrenListPage.tsx, /src/pages/MapViewPage.tsx, /src/pages/NewChildPage.tsx, /src/pages/ChildDetailPage.tsx, /src/pages/AdminUsersPage.tsx, /src/lib/auth.tsx, /src/pages/ProfilePage.tsx, /src/pages/ReportsPage.tsx[22m
+[2m5:33:08 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.tsx, /src/index.css, /src/pages/ChildrenListPage.tsx, /src/pages/MapViewPage.tsx, /src/pages/NewChildPage.tsx, /src/pages/ChildDetailPage.tsx, /src/pages/AdminUsersPage.tsx, /src/lib/auth.tsx, /src/pages/ProfilePage.tsx, /src/pages/ReportsPage.tsx[22m
+[2m5:34:14 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m5:34:43 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ProtectedRoute.tsx, /src/index.css[22m
+[2m5:34:59 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ProtectedRoute.tsx, /src/index.css[22m
+[2m6:05:45 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/AdminUsersPage.tsx, /src/index.css[22m
+[2m6:06:11 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/AdminUsersPage.tsx, /src/index.css[22m
+[2m6:06:35 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/AdminUsersPage.tsx, /src/index.css[22m
+[2m6:12:52 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/lib/auth.tsx, /src/index.css[22m
+[2m6:12:58 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/lib/auth.tsx, /src/index.css[22m
+[2m6:13:04 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LoginPage.tsx, /src/index.css[22m
+[2m6:13:17 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LoginPage.tsx, /src/index.css[22m
+[2m6:13:19 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Topbar.tsx, /src/index.css[22m
+[2m6:13:24 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Topbar.tsx, /src/index.css[22m
+[2m6:13:38 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Topbar.tsx, /src/index.css[22m
+[2m6:13:43 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Topbar.tsx, /src/index.css[22m
+[2m6:13:55 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/AdminUsersPage.tsx, /src/index.css[22m
+[2m6:14:01 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/AdminUsersPage.tsx, /src/index.css[22m
+[2m6:17:04 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LoginPage.tsx, /src/index.css[22m
+[2m6:17:19 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/LoginPage.tsx, /src/index.css[22m
+[2m6:19:29 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MapViewPage.tsx, /src/index.css[22m
+[2m6:21:02 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MapViewPage.tsx, /src/index.css[22m
+[2m6:24:32 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m6:24:38 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m6:24:48 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m6:24:52 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m6:25:01 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m6:25:08 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m6:25:18 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m6:26:13 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m6:27:08 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m6:29:05 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m6:30:08 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m6:34:00 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ReportsPage.tsx, /src/index.css[22m
+[2m6:34:06 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ReportsPage.tsx, /src/index.css[22m
+[2m6:34:15 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MapViewPage.tsx, /src/index.css[22m
+[2m6:34:22 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MapViewPage.tsx, /src/index.css[22m
+[2m6:36:43 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ReportsPage.tsx, /src/index.css[22m
+[2m6:36:48 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ReportsPage.tsx, /src/index.css[22m
+[2m6:36:52 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MapViewPage.tsx, /src/index.css[22m
+[2m6:36:56 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/MapViewPage.tsx, /src/index.css[22m
+[2m6:43:45 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m6:44:01 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Topbar.tsx, /src/index.css[22m
+[2m6:44:07 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m6:44:08 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Topbar.tsx, /src/index.css[22m
+[2m6:44:23 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m6:44:28 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m6:44:52 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m6:45:30 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m6:49:53 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.tsx, /src/index.css, /src/pages/ChildrenListPage.tsx, /src/pages/MapViewPage.tsx, /src/pages/NewChildPage.tsx, /src/pages/ChildDetailPage.tsx, /src/pages/AdminUsersPage.tsx, /src/lib/auth.tsx, /src/pages/ProfilePage.tsx, /src/pages/ReportsPage.tsx[22m
+[2m6:50:08 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildrenListPage.tsx, /src/index.css[22m
+[2m6:50:23 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m6:50:32 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/DashboardPage.tsx, /src/index.css, /src/pages/ChildrenListPage.tsx, /src/pages/MapViewPage.tsx, /src/pages/NewChildPage.tsx, /src/pages/ChildDetailPage.tsx, /src/pages/AdminUsersPage.tsx, /src/lib/auth.tsx, /src/pages/ProfilePage.tsx, /src/pages/ReportsPage.tsx[22m
+[2m6:50:32 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildrenListPage.tsx, /src/index.css[22m
+[2m6:50:33 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ChildDetailPage.tsx, /src/index.css[22m
+[2m6:51:10 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m6:51:31 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Topbar.tsx, /src/index.css[22m
+[2m6:52:50 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Sidebar.tsx, /src/index.css[22m
+[2m6:52:50 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/Topbar.tsx, /src/index.css[22m
+[2m6:54:14 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/AppLayout.tsx, /src/index.css[22m
+[2m6:54:19 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/AppLayout.tsx, /src/index.css[22m

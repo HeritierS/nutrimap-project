@@ -1,0 +1,8 @@
+{
+  // Point VS Code's TypeScript SDK to the workspace TypeScript (frontend install)
+  // Adjust the path if your frontend TS is in a different folder.
+  "typescript.tsdk": "./nutri-map FrontEnd/node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  // Use the workspace version of TypeScript by default
+  "typescript.validate.enable": true
+}

@@ -1,0 +1,15 @@
+Removed UI content from `nutri-map FrontEnd/src/pages/ProfilePage.tsx`:
+
+1) Demo notice (moved here):
+
+"Demo Notice: This is a demonstration version using mock data. All information shown is for educational and prototype purposes only."
+
+2) Version / Tech notes (moved here):
+
+- v1.0.0 — Version
+- React — Framework
+- TypeScript — Language
+
+Notes:
+- These lines were removed from the Profile page UI and intentionally moved to this documentation file so they are still available for reference but not shown in the application UI.
+- If you'd prefer these notes to be placed in the frontend README or another location (for example `nutri-map FrontEnd/README.md`), tell me where and I will move them.

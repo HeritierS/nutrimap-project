@@ -1,0 +1,7 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./nutri-map FrontEnd" },
+    { "path": "./backend" }
+  ]
+}
