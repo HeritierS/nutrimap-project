@@ -7,6 +7,8 @@ export type User = {
   role: UserRole;
   password: string;
   approved?: boolean;
+  region?: string;
+  district?: string;
 };
 
 export type AnthroStatus = 'normal' | 'moderate' | 'severe';

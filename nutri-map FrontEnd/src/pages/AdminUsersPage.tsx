@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
+import { RWANDA_REGIONS } from '@/lib/rwanda';
 import { User } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -22,7 +23,7 @@ export default function AdminUsersPage() {
     try {
       // Load users from backend; map backend `isActive` to frontend `approved` field
       const data: any[] = await api.listUsers();
-      const mapped = data.map(u => ({ id: u.id, name: u.name, email: u.email, role: u.role, password: '', approved: u.isActive ?? false } as User));
+  const mapped = data.map(u => ({ id: u.id, name: u.name, email: u.email, role: u.role, password: '', approved: u.isActive ?? false, region: u.region ?? undefined, district: u.district ?? undefined } as User));
       setUsers(mapped);
     } catch (err) {
       // Backend failed. Surface error and show empty list.
@@ -66,16 +67,16 @@ export default function AdminUsersPage() {
   };
 
   // New user form state and handler
-  const [newUser, setNewUser] = useState({ name: '', email: '', role: 'chw', password: '' });
+  const [newUser, setNewUser] = useState({ name: '', email: '', role: 'chw', password: '', district: '' });
   // per-user password inputs for admin to reset passwords
   const [pwInputs, setPwInputs] = useState<Record<string, string>>({});
 
   const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await api.createUser({ name: newUser.name, email: newUser.email, role: newUser.role, password: newUser.password });
+      await api.createUser({ name: newUser.name, email: newUser.email, role: newUser.role, password: newUser.password, district: newUser.district || undefined });
       toast({ title: 'User created', description: `${newUser.email} was added` });
-      setNewUser({ name: '', email: '', role: 'chw', password: '' });
+      setNewUser({ name: '', email: '', role: 'chw', password: '', district: '' });
       await loadUsers();
     } catch (err: any) {
       // eslint-disable-next-line no-console
@@ -274,6 +275,15 @@ export default function AdminUsersPage() {
               <Label htmlFor="password">Password</Label>
               <Input id="password" type="password" value={newUser.password} onChange={(e) => setNewUser(s => ({ ...s, password: e.target.value }))} />
             </div>
+              <div>
+                <Label htmlFor="district">District (optional)</Label>
+                <select id="district" value={newUser.district} onChange={(e) => setNewUser(s => ({ ...s, district: e.target.value }))} className="w-full rounded-md border border-border bg-background p-2">
+                  <option value="">-- none --</option>
+                  {RWANDA_REGIONS.map(r => (
+                    <option key={r.name} value={r.name}>{r.name}</option>
+                  ))}
+                </select>
+              </div>
             <div className="md:col-span-2">
               <Button type="submit">Create User</Button>
             </div>

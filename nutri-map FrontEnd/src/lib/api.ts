@@ -79,7 +79,7 @@ export const api = {
 
   // Users (admin only)
   listUsers: () => request('/api/users'),
-  createUser: (data: { name: string; email: string; role: string; password?: string }) =>
+  createUser: (data: { name: string; email: string; role: string; password?: string; region?: string; district?: string }) =>
     request('/api/users', { method: 'POST', body: JSON.stringify(data) }),
   activateUser: (userId: string) => request(`/api/users/${userId}/activate`, { method: 'POST' }),
   updateUser: (userId: string, updates: any) => request(`/api/users/${userId}`, { method: 'PUT', body: JSON.stringify(updates) }),
@@ -109,6 +109,15 @@ export const api = {
   addFollowUp: (id: string, data: any) => request(`/api/children/${id}/followups`, { method: 'POST', body: JSON.stringify(data) }),
   deleteChild: (id: string) => request(`/api/children/${id}`, { method: 'DELETE' }),
   reportSummary: () => request('/api/children/reports/summary'),
+  getMotherMaritalStats: () => request('/api/analytics/mother-marital'),
+  // Conversations / Discussions
+  createConversation: (data: { childId?: string; title?: string }) => request('/api/conversations', { method: 'POST', body: JSON.stringify(data) }),
+  listConversations: (params?: { childId?: string }) => {
+    const qs = params ? '?' + new URLSearchParams(params as any).toString() : '';
+    return request(`/api/conversations${qs}`);
+  },
+  getConversationMessages: (conversationId: string) => request(`/api/conversations/${conversationId}/messages`),
+  postConversationMessage: (conversationId: string, text: string) => request(`/api/conversations/${conversationId}/messages`, { method: 'POST', body: JSON.stringify({ text }) }),
 };
 
 export default api;

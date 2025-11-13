@@ -15,9 +15,11 @@ import NewChildPage from "./pages/NewChildPage";
 import ChildDetailPage from "./pages/ChildDetailPage";
 import MapViewPage from "./pages/MapViewPage";
 import ReportsPage from "./pages/ReportsPage";
+import ConversationsPage from "./pages/ConversationsPage";
 import AdminUsersPage from "./pages/AdminUsersPage";
 import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
+import LandingPage from "./pages/LandingPage";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +34,7 @@ const App = () => {
             <BrowserRouter>
               <Routes>
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/landing" element={<LandingPage />} />
                 <Route
                   path="/"
                   element={
@@ -43,6 +46,11 @@ const App = () => {
                   <Route index element={<Navigate to="/dashboard" replace />} />
                   <Route path="dashboard" element={<DashboardPage />} />
                   <Route path="children" element={<ChildrenListPage />} />
+                  <Route path="conversations" element={
+                    <ProtectedRoute allowedRoles={[ 'chw', 'nutritionist' ]}>
+                      <ConversationsPage />
+                    </ProtectedRoute>
+                  } />
                   <Route 
                     path="children/new" 
                     element={

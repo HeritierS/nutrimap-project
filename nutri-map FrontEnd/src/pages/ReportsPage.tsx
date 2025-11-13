@@ -10,6 +10,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 
 export default function ReportsPage() {
   const [children, setChildren] = useState<Child[]>([]);
+  const [maritalStats, setMaritalStats] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
   
@@ -20,6 +21,15 @@ export default function ReportsPage() {
         if (user?.role === 'chw') params.collectorId = user.id;
         const data = await api.getChildren(params);
         setChildren(data || []);
+        // load marital status analytics
+        try {
+          const m = await api.getMotherMaritalStats();
+          setMaritalStats(m);
+        } catch (e) {
+          // ignore non-critical analytics failures
+          // eslint-disable-next-line no-console
+          console.warn('Failed to load marital stats', e);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -145,6 +155,54 @@ export default function ReportsPage() {
           </CardContent>
         </Card>
         
+        {maritalStats && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Mother marital status & malnutrition breakdown</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-6 md:grid-cols-2">
+                <div>
+                  <h4 className="text-sm font-medium">Distribution</h4>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <PieChart>
+                      <Pie
+                        data={Object.entries(maritalStats.breakdown).map(([k,v]: any) => ({ name: k, value: v.total }))}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={80}
+                        dataKey="value"
+                        label={(entry: any) => `${entry.name}: ${entry.value}`}
+                      >
+                        {Object.entries(maritalStats.breakdown).map(([k], idx) => (
+                          <Cell key={k} fill={['hsl(var(--primary))','hsl(var(--success))','hsl(var(--warning))','hsl(var(--muted))','hsl(var(--danger))'][idx % 5]} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+
+                <div>
+                  <h4 className="text-sm font-medium">Malnutrition by marital status</h4>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <BarChart data={Object.entries(maritalStats.breakdown).map(([k,v]: any) => ({ status: k, normal: v.byStatus.normal, moderate: v.byStatus.moderate, severe: v.byStatus.severe }))}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="status" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="normal" stackId="a" fill="hsl(var(--success))" />
+                      <Bar dataKey="moderate" stackId="a" fill="hsl(var(--warning))" />
+                      <Bar dataKey="severe" stackId="a" fill="hsl(var(--danger))" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         <Card>
           <CardHeader>
             <CardTitle>Summary Statistics</CardTitle>

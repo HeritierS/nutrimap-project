@@ -14,45 +14,82 @@ model User {
   password  String
   role      Role       @default(chw)
   isActive  Boolean    @default(false)
+  region    String?
+  district  String?
   createdAt DateTime   @default(now())
   updatedAt DateTime?  @updatedAt
   children  Child[]    @relation("creator_children")
   FollowUp  FollowUp[]
+  // conversations this user has created
+  conversations Conversation[]
+  // messages authored by this user
+  messages Message[]
 }
 
 model Child {
-  id                String     @id @default(uuid())
-  localId           String     @unique
-  name              String
-  motherName        String
-  dob               DateTime
-  sex               Sex
-  address           String
-  latitude          Float
-  longitude         Float
-  complications     String?
-  createdById       String
-  createdBy         User       @relation(fields: [createdById], references: [id], name: "creator_children", onDelete: Cascade)
-  initialRecordedAt DateTime
-  initialWeightKg   Float
-  initialHeightCm   Float
-  initialHeadCircCm Float?
-  followUps         FollowUp[]
-  createdAt         DateTime   @default(now())
-  updatedAt         DateTime?  @updatedAt
+  id                  String         @id @default(uuid())
+  localId             String         @unique
+  name                String
+  motherName          String
+  region              String?
+  district            String?
+  dob                 DateTime
+  sex                 Sex
+  address             String
+  latitude            Float
+  longitude           Float
+  complications       String?
+  createdById         String
+  initialRecordedAt   DateTime
+  initialWeightKg     Float
+  initialHeightCm     Float
+  initialHeadCircCm   Float?
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime?      @updatedAt
+  fatherName          String?
+  fatherNationalId    String?
+  motherAge           Int?
+  motherMaritalStatus MaritalStatus?
+  motherNationalId    String?
+  createdBy           User           @relation("creator_children", fields: [createdById], references: [id], onDelete: Cascade)
+  followUps           FollowUp[]
+  // conversations linked to this child
+  conversations      Conversation[]
+}
+
+model Conversation {
+  id          String   @id @default(uuid())
+  childId     String?
+  child       Child?   @relation(fields: [childId], references: [id], onDelete: Cascade)
+  title       String?
+  createdById String
+  createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  messages    Message[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime? @updatedAt
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  authorId       String
+  author         User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  text           String
+  createdAt      DateTime     @default(now())
 }
 
 model FollowUp {
   id          String   @id @default(uuid())
   childId     String
-  child       Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
   recordedAt  DateTime
   weightKg    Float
   heightCm    Float
   headCircCm  Float?
   collectorId String
-  collector   User     @relation(fields: [collectorId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
+  child       Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  collector   User     @relation(fields: [collectorId], references: [id], onDelete: Cascade)
 }
 
 enum Role {
@@ -64,4 +101,11 @@ enum Role {
 enum Sex {
   male
   female
+}
+
+enum MaritalStatus {
+  married
+  divorced
+  single
+  teen
 }

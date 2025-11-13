@@ -3,15 +3,15 @@ import prisma from '../prismaClient';
 import { hashPassword } from '../utils/password';
 
 export async function createUser(req: Request, res: Response) {
-  const { name, email, role, password } = req.body;
+  const { name, email, role, password, region, district } = req.body;
   if (!['chw','nutritionist','admin'].includes(role)) return res.status(400).json({ message: 'Invalid role' });
   const hashed = await hashPassword(password || 'changeme123');
-  const user = await prisma.user.create({ data: { name, email, role, password: hashed, isActive: role === 'admin' ? true : false } });
+  const user = await prisma.user.create({ data: { name, email, role, password: hashed, isActive: role === 'admin' ? true : false, region: region ?? null, district: district ?? null } });
   res.status(201).json(user);
 }
 
 export async function listUsers(_req: Request, res: Response) {
-  const users = await prisma.user.findMany({ select: { id:true, name:true, email:true, role:true, isActive:true, createdAt:true }});
+  const users = await prisma.user.findMany({ select: { id:true, name:true, email:true, role:true, isActive:true, createdAt:true, region: true, district: true }});
   res.json(users);
 }
 
@@ -23,12 +23,14 @@ export async function activateUser(req: Request, res: Response) {
 
 export async function updateUser(req: Request, res: Response) {
   const { userId } = req.params;
-  const { name, email, role, isActive } = req.body;
+  const { name, email, role, isActive, region, district } = req.body;
   const data: any = {};
   if (name !== undefined) data.name = name;
   if (email !== undefined) data.email = email;
   if (role !== undefined && ['chw','nutritionist','admin'].includes(role)) data.role = role;
   if (isActive !== undefined) data.isActive = Boolean(isActive);
+  if (region !== undefined) data.region = region;
+  if (district !== undefined) data.district = district;
   const user = await prisma.user.update({ where: { id: userId }, data });
   res.json(user);
 }

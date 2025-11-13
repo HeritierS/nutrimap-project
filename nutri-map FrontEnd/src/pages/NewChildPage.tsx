@@ -10,23 +10,24 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
 import { ArrowLeft, Save, MapPin } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
+import { RWANDA_REGIONS } from '@/lib/rwanda';
 
-const RWANDA_REGIONS = [
-  { name: 'Kigali', lat: -1.9536, lng: 30.0606 },
-  { name: 'Musanze', lat: -1.4989, lng: 29.6347 },
-  { name: 'Rubavu', lat: -1.6788, lng: 29.2667 },
-  { name: 'Huye', lat: -2.5952, lng: 29.7386 },
-  { name: 'Rusizi', lat: -2.4844, lng: 28.9053 },
-];
+// All 30 districts of Rwanda. lat/lng are optional; when missing we fall back to Kigali center.
+// The RWANDA_REGIONS array is now imported from '@/lib/rwanda'.
 
 export default function NewChildPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [createdChildId, setCreatedChildId] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     name: '',
     motherName: '',
+    motherNationalId: '',
+    motherMaritalStatus: 'single' as 'married' | 'divorced' | 'single' | 'teen',
+    motherAge: '',
     dob: '',
     sex: 'male' as 'male' | 'female',
     address: '',
@@ -34,6 +35,8 @@ export default function NewChildPage() {
     weightKg: '',
     heightCm: '',
     headCircumferenceCm: '',
+    fatherName: '',
+    fatherNationalId: '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -53,11 +56,17 @@ export default function NewChildPage() {
         return;
       }
 
+      const DEFAULT_LAT = -1.9441; // Kigali center fallback
+      const DEFAULT_LNG = 30.0820;
+
       const region = RWANDA_REGIONS.find((r) => r.name === formData.address) || RWANDA_REGIONS[0];
 
+      const baseLat = (region as any).lat ?? DEFAULT_LAT;
+      const baseLng = (region as any).lng ?? DEFAULT_LNG;
+
       const geo = {
-        lat: region.lat + (Math.random() - 0.5) * 0.05,
-        lng: region.lng + (Math.random() - 0.5) * 0.05,
+        lat: baseLat + (Math.random() - 0.5) * 0.05,
+        lng: baseLng + (Math.random() - 0.5) * 0.05,
       };
 
       // Basic validation on numeric anthropometry values
@@ -74,11 +83,16 @@ export default function NewChildPage() {
       const payload = {
         name: formData.name,
         motherName: formData.motherName,
+        motherNationalId: formData.motherNationalId || undefined,
+        motherMaritalStatus: formData.motherMaritalStatus || undefined,
+        motherAge: formData.motherAge ? parseInt(formData.motherAge, 10) : undefined,
         dob: formData.dob,
         sex: formData.sex,
         address: formData.address,
         geo,
         complications: formData.complications || undefined,
+        fatherName: formData.fatherName || undefined,
+        fatherNationalId: formData.fatherNationalId || undefined,
         // backend will derive createdBy from authenticated user; no need to send createdBy here
         initialRecordedAt: new Date().toISOString(),
         initialWeightKg: weight,
@@ -93,14 +107,14 @@ export default function NewChildPage() {
         }[],
       };
 
-      await api.createChild(payload);
+      const created: any = await api.createChild(payload);
+      const childId = created?.id ?? null;
+      setCreatedChildId(childId);
 
       toast({
         title: 'Child registered successfully',
         description: `${formData.name} has been added to the system`,
       });
-
-      navigate('/children');
     } catch (error: any) {
       const message = error?.message || JSON.stringify(error) || 'There was an error registering the child';
       toast({ title: 'Registration failed', description: message, variant: 'destructive' });
@@ -146,6 +160,44 @@ export default function NewChildPage() {
                   value={formData.motherName}
                   onChange={(e) => setFormData({ ...formData, motherName: e.target.value })}
                   required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="motherNationalId">Mother's National ID</Label>
+                <Input
+                  id="motherNationalId"
+                  value={formData.motherNationalId}
+                  onChange={(e) => setFormData({ ...formData, motherNationalId: e.target.value })}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="motherMaritalStatus">Mother's Marital Status</Label>
+                <Select
+                  value={formData.motherMaritalStatus}
+                  onValueChange={(value: 'married' | 'divorced' | 'single' | 'teen') => setFormData({ ...formData, motherMaritalStatus: value })}
+                >
+                  <SelectTrigger id="motherMaritalStatus">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="married">Married</SelectItem>
+                    <SelectItem value="divorced">Divorced</SelectItem>
+                    <SelectItem value="single">Single mother</SelectItem>
+                    <SelectItem value="teen">Teen mother</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="motherAge">Mother's Age</Label>
+                <Input
+                  id="motherAge"
+                  type="number"
+                  min="0"
+                  value={formData.motherAge}
+                  onChange={(e) => setFormData({ ...formData, motherAge: e.target.value })}
                 />
               </div>
 
@@ -245,6 +297,28 @@ export default function NewChildPage() {
               </div>
             </div>
 
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Father Information (optional)</h3>
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="fatherName">Father's Name</Label>
+                  <Input
+                    id="fatherName"
+                    value={formData.fatherName}
+                    onChange={(e) => setFormData({ ...formData, fatherName: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="fatherNationalId">Father's National ID</Label>
+                  <Input
+                    id="fatherNationalId"
+                    value={formData.fatherNationalId}
+                    onChange={(e) => setFormData({ ...formData, fatherNationalId: e.target.value })}
+                  />
+                </div>
+              </div>
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="complications">Complications / Notes</Label>
               <Textarea
@@ -273,6 +347,22 @@ export default function NewChildPage() {
               <Button type="button" variant="outline" onClick={() => navigate('/children')}>
                 Cancel
               </Button>
+              {createdChildId && (
+                <Button size="sm" variant="ghost" onClick={async () => {
+                  try {
+                    if (!createdChildId) return;
+                    const conv: any = await api.createConversation({ childId: createdChildId, title: `Discussion for ${formData.name}` });
+                    navigate(`/conversations?childId=${createdChildId}&openId=${conv.id}`);
+                  } catch (err) {
+                    // eslint-disable-next-line no-console
+                    console.error('Failed to start discussion', err);
+                    toast({ title: 'Failed to start discussion', description: (err as any)?.message || 'Could not start discussion', variant: 'destructive' });
+                  }
+                }}>
+                  <MessageSquare className="mr-2 h-4 w-4" />
+                  Start Discussion
+                </Button>
+              )}
             </div>
           </form>
         </CardContent>

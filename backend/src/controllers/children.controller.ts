@@ -49,9 +49,16 @@ export async function createChild(req: Request, res: Response) {
       localId,
       name: body.name,
       motherName: body.motherName,
+      motherNationalId: body.motherNationalId ?? null,
+      motherMaritalStatus: body.motherMaritalStatus ?? null,
+      motherAge: body.motherAge ?? null,
       dob: new Date(body.dob),
       sex: body.sex,
       address: body.address,
+      region: body.region ?? null,
+      district: body.district ?? null,
+      fatherName: body.fatherName ?? null,
+      fatherNationalId: body.fatherNationalId ?? null,
       latitude: body.geo?.lat ?? 0,
       longitude: body.geo?.lng ?? 0,
       complications: body.complications,
@@ -130,7 +137,20 @@ export async function updateChild(req: Request, res: Response) {
   const child = await prisma.child.findUnique({ where: { id }});
   if (!child) return res.status(404).json({ message: 'Child not found' });
   if (user.role !== 'admin' && user.id !== child.createdById) return res.status(403).json({ message: 'Forbidden' });
-  const updated = await prisma.child.update({ where: { id }, data: { name: body.name ?? child.name, motherName: body.motherName ?? child.motherName, address: body.address ?? child.address, latitude: body.geo?.lat ?? child.latitude, longitude: body.geo?.lng ?? child.longitude, complications: body.complications ?? child.complications } });
+  const updated = await prisma.child.update({ where: { id }, data: { 
+    name: body.name ?? child.name,
+    motherName: body.motherName ?? child.motherName,
+    motherNationalId: body.motherNationalId ?? child.motherNationalId,
+    motherMaritalStatus: body.motherMaritalStatus ?? child.motherMaritalStatus,
+    motherAge: body.motherAge ?? child.motherAge,
+    region: body.region ?? child.region,
+    district: body.district ?? child.district,
+    fatherName: body.fatherName ?? child.fatherName,
+    fatherNationalId: body.fatherNationalId ?? child.fatherNationalId,
+    address: body.address ?? child.address,
+    latitude: body.geo?.lat ?? child.latitude,
+    longitude: body.geo?.lng ?? child.longitude,
+    complications: body.complications ?? child.complications } });
   res.json(updated);
 }
 
@@ -164,16 +184,66 @@ export async function reportSummary(_req: Request, res: Response) {
   res.json(summary);
 }
 
+export async function reportByMotherMaritalStatus(req: Request, res: Response) {
+  try {
+    const user = (req as any).user;
+    // Nutritionists and admins see all data; CHWs see only their own children
+    const where: any = {};
+    if (user && user.role === 'chw') where.createdById = user.id;
+
+    const children = await prisma.child.findMany({ where, include: { followUps: true } });
+
+    function classifyChild(c: any) {
+      const last = c.followUps.length ? c.followUps[c.followUps.length -1] : null;
+      const weight = last ? last.weightKg : c.initialWeightKg;
+      const height = last ? last.heightCm : c.initialHeightCm;
+      const a = computeAnthro({ ageDays: Math.floor((new Date().getTime() - c.dob.getTime())/(1000*60*60*24)), weight, height, sex: c.sex });
+      return a.classification.wh || a.classification.wa || a.classification.ha || 'normal';
+    }
+
+    const statuses = ['normal', 'moderate', 'severe'];
+    const maritalEnum = ['married','divorced','single','teen'];
+
+    const breakdown: Record<string, { total: number; byStatus: Record<string, number> }> = {};
+    // initialize
+    for (const m of maritalEnum) breakdown[m] = { total: 0, byStatus: { normal:0, moderate:0, severe:0 } };
+    breakdown.unknown = { total: 0, byStatus: { normal:0, moderate:0, severe:0 } };
+
+    for (const c of children) {
+      const marital = c.motherMaritalStatus ?? 'unknown';
+      const mKey = maritalEnum.includes(marital) ? marital : 'unknown';
+      const st = classifyChild(c);
+      breakdown[mKey].total++;
+      if (statuses.includes(st)) breakdown[mKey].byStatus[st]++;
+      else breakdown[mKey].byStatus.normal++;
+    }
+
+    // totals
+    const totalChildren = children.length;
+
+    return res.json({ total: totalChildren, breakdown });
+  } catch (err: any) {
+    // eslint-disable-next-line no-console
+    console.error('[reportByMotherMaritalStatus] error', err?.message || err);
+    return res.status(500).json({ message: 'Failed to compute report' });
+  }
+}
+
 export async function exportChildren(_req: Request, res: Response) {
   try {
     const children: any[] = await prisma.child.findMany({ include: { followUps: true, createdBy: { select: { id: true, name: true, email: true } } } });
     // simple CSV export
-    const header = ['id', 'localId', 'name', 'motherName', 'dob', 'sex', 'address', 'latitude', 'longitude', 'createdById', 'createdByName', 'initialRecordedAt', 'initialWeightKg', 'initialHeightCm', 'initialHeadCircCm'];
+    const header = ['id', 'localId', 'name', 'motherName', 'motherNationalId', 'motherMaritalStatus', 'motherAge', 'fatherName', 'fatherNationalId', 'dob', 'sex', 'address', 'latitude', 'longitude', 'createdById', 'createdByName', 'initialRecordedAt', 'initialWeightKg', 'initialHeightCm', 'initialHeadCircCm'];
     const rows: string[][] = children.map(c => ([
       c.id,
       c.localId,
       c.name,
       c.motherName,
+      c.motherNationalId ?? '',
+      c.motherMaritalStatus ?? '',
+      c.motherAge ?? '',
+      c.fatherName ?? '',
+      c.fatherNationalId ?? '',
       c.dob.toISOString(),
       c.sex,
       c.address,

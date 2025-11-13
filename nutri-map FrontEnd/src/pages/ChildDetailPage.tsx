@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { ArrowLeft, Calendar, MapPin, User, Weight, Ruler, Plus } from 'lucide-react';
+import { ArrowLeft, Calendar, MapPin, User, Weight, Ruler, Plus, MessageSquare } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/auth';
@@ -156,6 +156,24 @@ export default function ChildDetailPage() {
                 <Button variant="outline" onClick={() => { setIsEditing(false); setEditState({ name: child.name, motherName: child.motherName, address: child.address, complications: child.complications ?? '' }); }}>Cancel</Button>
               </div>
             )}
+          </div>
+        )}
+        {(user?.role === 'chw' || user?.role === 'nutritionist') && (
+          <div className="ml-2">
+            <Button size="sm" onClick={async () => {
+              try {
+                const conv: any = await api.createConversation({ childId: child.id, title: `Discussion for ${child.name}` });
+                // navigate to conversations page and open the created conversation
+                navigate(`/conversations?childId=${child.id}&openId=${conv.id}`);
+              } catch (err) {
+                // eslint-disable-next-line no-console
+                console.error('Failed to create conversation', err);
+                toast({ title: 'Failed to start discussion', description: (err as any)?.message || 'Could not start discussion', variant: 'destructive' });
+              }
+            }}>
+              <MessageSquare className="mr-2 h-4 w-4" />
+              Start Discussion
+            </Button>
           </div>
         )}
       </div>
