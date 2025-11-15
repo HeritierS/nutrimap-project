@@ -21,9 +21,25 @@ import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
 import LandingPage from "./pages/LandingPage";
 
+// `RootElement` will call `useAuth` under the `AuthProvider` so import is required
+import { useAuth } from '@/lib/auth';
 const queryClient = new QueryClient();
 
-const App = () => {  
+const App = () => {
+  const RootElement: React.FC = () => {
+    const { user } = useAuth();
+    // If user is signed in, mount the protected app layout. Otherwise show the public landing page.
+    if (user) {
+      return (
+        <ProtectedRoute>
+          <AppLayout />
+        </ProtectedRoute>
+      );
+    }
+
+    return <LandingPage />;
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
@@ -35,14 +51,7 @@ const App = () => {
               <Routes>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/landing" element={<LandingPage />} />
-                <Route
-                  path="/"
-                  element={
-                    <ProtectedRoute>
-                      <AppLayout />
-                    </ProtectedRoute>
-                  }
-                >
+                <Route path="/" element={<RootElement />}>
                   <Route index element={<Navigate to="/dashboard" replace />} />
                   <Route path="dashboard" element={<DashboardPage />} />
                   <Route path="children" element={<ChildrenListPage />} />
@@ -54,7 +63,7 @@ const App = () => {
                   <Route 
                     path="children/new" 
                     element={
-                      <ProtectedRoute allowedRoles={['chw']}>
+                      <ProtectedRoute allowedRoles={[ 'chw' ]}>
                         <NewChildPage />
                       </ProtectedRoute>
                     } 
@@ -65,7 +74,7 @@ const App = () => {
                   <Route 
                     path="admin/users" 
                     element={
-                      <ProtectedRoute allowedRoles={['admin']}>
+                      <ProtectedRoute allowedRoles={[ 'admin' ]}>
                         <AdminUsersPage />
                       </ProtectedRoute>
                     } 
