@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 import { Child } from '@/lib/types';
-import { classifyNutritionalStatus, calculateAgeInMonths } from '@/lib/zscore';
+import { classifyNutritionalStatus, calculateAgeInMonths, computeAnthroZScores } from '@/lib/zscore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Download, FileText, Table } from 'lucide-react';
@@ -12,6 +12,7 @@ export default function ReportsPage() {
   const [children, setChildren] = useState<Child[]>([]);
   const [maritalStats, setMaritalStats] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showHighRiskOnly, setShowHighRiskOnly] = useState(false);
   const { user } = useAuth();
   
   useEffect(() => {
@@ -65,6 +66,31 @@ export default function ReportsPage() {
     
     return acc;
   }, {} as Record<string, { normal: number; moderate: number; severe: number }>);
+
+  // compute z-scores per child for listing and filtering; prefer backend analysis when present
+  const childrenWithZ = children.map(child => {
+    const latestData = Array.isArray((child as any).followUps) && (child as any).followUps.length > 0
+      ? (child as any).followUps[(child as any).followUps.length - 1]
+      : (child as any).initialAnthro ?? null;
+    const ageMonths = calculateAgeInMonths(child.dob || '');
+
+    // backend may return `analysis` with numeric `waz`, `whz`, `haz`
+    const apiAnalysis = (child as any).analysis ?? null;
+    const zFromApi = apiAnalysis && (typeof apiAnalysis.waz === 'number' || typeof apiAnalysis.whz === 'number' || typeof apiAnalysis.haz === 'number')
+      ? { waz: apiAnalysis.waz ?? null, whz: apiAnalysis.whz ?? apiAnalysis.zWH ?? null, haz: apiAnalysis.haz ?? apiAnalysis.zHA ?? null }
+      : null;
+
+    const weight = latestData?.weightKg ?? null;
+    const height = latestData?.heightCm ?? null;
+
+    const z = zFromApi ?? ((typeof weight === 'number' && typeof height === 'number' && Number.isFinite(ageMonths))
+      ? computeAnthroZScores(weight, height, ageMonths)
+      : { waz: null, whz: null, haz: null });
+
+    const isHighRisk = [z.waz, z.whz, z.haz].some(v => typeof v === 'number' && v <= -2);
+
+    return { child, latestData, ageMonths, z, isHighRisk };
+  });
   
   const barChartData = Object.entries(statusByRegion).map(([region, stats]) => ({
     region,
@@ -265,6 +291,54 @@ export default function ReportsPage() {
         </CardContent>
       </Card>
       
+      <Card>
+        <CardHeader>
+          <CardTitle>Anthropometric Indicators (z-scores)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm text-muted-foreground">Showing latest measurement per child</div>
+            <label className="flex items-center gap-2 text-sm">
+              <input type="checkbox" checked={showHighRiskOnly} onChange={e => setShowHighRiskOnly(e.target.checked)} />
+              <span>Show high-risk only (any z ≤ -2)</span>
+            </label>
+          </div>
+
+          <div className="overflow-auto">
+            <table className="w-full table-auto text-sm">
+              <thead>
+                <tr className="text-left text-xs text-muted-foreground">
+                  <th className="px-2 py-2">Name</th>
+                  <th className="px-2 py-2">Age (mo)</th>
+                  <th className="px-2 py-2">Weight (kg)</th>
+                  <th className="px-2 py-2">Height (cm)</th>
+                  <th className="px-2 py-2">WAZ</th>
+                  <th className="px-2 py-2">WHZ</th>
+                  <th className="px-2 py-2">HAZ</th>
+                  <th className="px-2 py-2">Risk</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(
+                  showHighRiskOnly ? childrenWithZ.filter(c => c.isHighRisk) : childrenWithZ
+                ).map(({ child, latestData, ageMonths, z, isHighRisk }) => (
+                  <tr key={child.id} className={isHighRisk ? 'bg-danger/10' : ''}>
+                    <td className="px-2 py-2">{child.name}</td>
+                    <td className="px-2 py-2">{ageMonths}</td>
+                    <td className="px-2 py-2">{latestData?.weightKg ?? '-'}</td>
+                    <td className="px-2 py-2">{latestData?.heightCm ?? '-'}</td>
+                    <td className="px-2 py-2">{z.waz ?? '-'}</td>
+                    <td className="px-2 py-2">{z.whz ?? '-'}</td>
+                    <td className="px-2 py-2">{z.haz ?? '-'}</td>
+                    <td className="px-2 py-2">{isHighRisk ? 'High' : 'OK'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+
       <Card className="bg-muted/50">
         <CardContent className="pt-6">
           <div className="flex items-start gap-3">

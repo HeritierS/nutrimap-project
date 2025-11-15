@@ -59,7 +59,10 @@ export default function NewChildPage() {
       const DEFAULT_LAT = -1.9441; // Kigali center fallback
       const DEFAULT_LNG = 30.0820;
 
-      const region = RWANDA_REGIONS.find((r) => r.name === formData.address) || RWANDA_REGIONS[0];
+      // If the current user is a CHW with a district affiliation, force the selected district
+      const selectedName = user && user.role === 'chw' && (user as any).district ? (user as any).district : formData.address;
+
+      const region = RWANDA_REGIONS.find((r) => r.name === selectedName) || RWANDA_REGIONS[0];
 
       const baseLat = (region as any).lat ?? DEFAULT_LAT;
       const baseLng = (region as any).lng ?? DEFAULT_LNG;
@@ -88,7 +91,9 @@ export default function NewChildPage() {
         motherAge: formData.motherAge ? parseInt(formData.motherAge, 10) : undefined,
         dob: formData.dob,
         sex: formData.sex,
-        address: formData.address,
+        address: selectedName || formData.address,
+        region: undefined,
+        district: selectedName || undefined,
         geo,
         complications: formData.complications || undefined,
         fatherName: formData.fatherName || undefined,
@@ -122,6 +127,18 @@ export default function NewChildPage() {
       setIsSubmitting(false);
     }
   };
+
+  // Limit selectable districts for CHW users to their assigned district
+  const allowedRegions = user && user.role === 'chw' && (user as any).district
+    ? RWANDA_REGIONS.filter(r => r.name === (user as any).district)
+    : RWANDA_REGIONS;
+
+  // If logged-in user is a CHW, default the address field to their district
+  React.useEffect(() => {
+    if (user && user.role === 'chw' && (user as any).district) {
+      setFormData((f) => ({ ...f, address: (user as any).district }));
+    }
+  }, [user]);
 
   return (
     <div className="space-y-6">
@@ -240,7 +257,7 @@ export default function NewChildPage() {
                     <SelectValue placeholder="Select region" />
                   </SelectTrigger>
                   <SelectContent>
-                    {RWANDA_REGIONS.map((region) => (
+                    {allowedRegions.map((region) => (
                       <SelectItem key={region.name} value={region.name}>
                         <div className="flex items-center gap-2">
                           <MapPin className="h-4 w-4" />

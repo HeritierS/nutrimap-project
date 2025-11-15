@@ -11,7 +11,7 @@ export async function registerInitialAdmin(req: Request, res: Response) {
   const hashed = await hashPassword(password);
   const user = await prisma.user.create({ data: { name, email, password: hashed, role: 'admin', isActive: true } });
   const token = signToken({ id: user.id, email: user.email, role: user.role });
-  res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
+  res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role, region: user.region ?? null, district: user.district ?? null, isActive: user.isActive } });
 }
 
 export async function login(req: Request, res: Response) {
@@ -22,7 +22,7 @@ export async function login(req: Request, res: Response) {
   const ok = await verifyPassword(password, user.password);
   if (!ok) return res.status(401).json({ message: 'Invalid credentials' });
   const token = signToken({ id: user.id, email: user.email, role: user.role });
-  res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
+  res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role, region: user.region ?? null, district: user.district ?? null, isActive: user.isActive } });
 }
 
 export async function me(req: Request, res: Response) {
@@ -31,7 +31,7 @@ export async function me(req: Request, res: Response) {
   // Debug: log the incoming payload and the DB lookup result to help diagnose mismatches
   // eslint-disable-next-line no-console
   console.debug('[auth.me] token payload:', { id: userPayload.id, email: userPayload.email, role: userPayload.role });
-  const u = await prisma.user.findUnique({ where: { id: userPayload.id }, select: { id: true, name: true, email: true, role: true, isActive: true } });
+  const u = await prisma.user.findUnique({ where: { id: userPayload.id }, select: { id: true, name: true, email: true, role: true, isActive: true, region: true, district: true } });
   // eslint-disable-next-line no-console
   console.debug('[auth.me] db user found:', !!u, 'for id', userPayload.id);
   if (!u) return res.status(404).json({ message: 'User not found' });

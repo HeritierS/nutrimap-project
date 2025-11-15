@@ -41,11 +41,15 @@ export async function createChild(req: Request, res: Response) {
       return res.status(403).json({ message: 'Account not activated' });
     }
 
+    // Enforce CHW district affiliation: fetch full user record to read district/region
+    const fullUser = await prisma.user.findUnique({ where: { id: user.id }, select: { id: true, role: true, region: true, district: true } });
+
     // Log minimal debug info to help trace foreign-key issues (do not log sensitive data)
     // eslint-disable-next-line no-console
     console.debug('[createChild] userId=', user.id, 'payloadKeys=', Object.keys(body));
 
-    const child = await prisma.child.create({ data: {
+    // Prepare create data; enforce CHW affiliation if applicable
+    const createData: any = {
       localId,
       name: body.name,
       motherName: body.motherName,
@@ -67,7 +71,16 @@ export async function createChild(req: Request, res: Response) {
       initialWeightKg: body.initialWeightKg,
       initialHeightCm: body.initialHeightCm,
       initialHeadCircCm: body.initialHeadCircCm
-    }});
+    };
+
+    // If the creating user is a CHW who has an assigned district/region, enforce it
+    if (fullUser && fullUser.role === 'chw' && fullUser.district) {
+      createData.district = fullUser.district;
+      // if region should mirror district for now, leave region null or set as needed
+      createData.region = fullUser.region ?? createData.region;
+    }
+
+    const child = await prisma.child.create({ data: createData });
 
     res.status(201).json(child);
   } catch (err: any) {
@@ -84,7 +97,13 @@ export async function createChild(req: Request, res: Response) {
 export async function getChildren(req: Request, res: Response) {
   const { collectorId, q } = req.query;
   const where: any = {};
-  if (collectorId) where.createdById = collectorId as string;
+  // If the requesting user is a CHW, restrict listing to their own created children
+  const user = (req as any).user;
+  if (user && user.role === 'chw') {
+    where.createdById = user.id;
+  } else if (collectorId) {
+    where.createdById = collectorId as string;
+  }
   if (q) {
     where.OR = [
       { name: { contains: String(q), mode: 'insensitive' } },

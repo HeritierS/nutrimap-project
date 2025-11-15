@@ -205,6 +205,29 @@ export default function AdminUsersPage() {
                     </select>
                   </div>
                   <div className="flex items-center gap-2">
+                    <select
+                      value={(user as any).district || ''}
+                      onChange={async (e) => {
+                        const newDistrict = e.target.value || null;
+                        try {
+                          await api.updateUser(user.id, { district: newDistrict });
+                          toast({ title: 'District updated', description: `Affiliation updated for ${user.email}` });
+                          await loadUsers();
+                        } catch (err: any) {
+                          console.error('Failed to update district', err);
+                          toast({ title: 'Error', description: err?.message || 'Could not update district', variant: 'destructive' });
+                        }
+                      }}
+                      className="rounded-md border border-border bg-background p-1 text-sm"
+                      disabled={user.role === 'admin'}
+                    >
+                      <option value="">-- none --</option>
+                      {RWANDA_REGIONS.map(r => (
+                        <option key={r.name} value={r.name}>{r.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex items-center gap-2">
                     <Input
                       placeholder="New password"
                       type="password"
