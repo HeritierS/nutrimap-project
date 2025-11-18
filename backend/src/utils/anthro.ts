@@ -79,8 +79,10 @@ export function computeAnthro({ ageDays, weight, height, sex }: { ageDays: numbe
     return { ageDays, waz, whz, haz, classification };
   } catch (err) {
     // if anything goes wrong with the who-growth path, fall back to approximations
+    // Safely extract an error message for unknown catch variable types
     // eslint-disable-next-line no-console
-    console.warn('[computeAnthro] who-growth integration failed, using fallback approximations', err?.message || err);
+    const errMsg = (err instanceof Error) ? err.message : (typeof err === 'string' ? err : JSON.stringify(err));
+    console.warn('[computeAnthro] who-growth integration failed, using fallback approximations', errMsg);
   }
 
   // Fallback approximations (as before)
