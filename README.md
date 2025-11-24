@@ -6,7 +6,7 @@ Part One: https://www.loom.com/share/04a3df237d9c4102b4133854e3178073
 
 Part Two: https://www.loom.com/share/8aa08464f04a4457bfcb945da25160c9
 
-# Deployement Link: 
+# Deployement Link: https://nutrimap-project.onrender.com
 
 # NutriMap — Setup & Demo Users
 
