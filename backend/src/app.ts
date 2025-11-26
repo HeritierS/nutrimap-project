@@ -20,6 +20,11 @@ app.use(morgan('dev'));
 
 app.get('/', (_req, res) => res.json({ ok: true, app: 'NutriMap Backend' }));
 
+// Lightweight health check for deployment platforms
+app.get('/health', (_req, res) => {
+	res.status(200).json({ status: 'ok' });
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/children', childrenRoutes);
