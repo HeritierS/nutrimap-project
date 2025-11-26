@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: nutrimap-backend
+    env: node
+    region: oregon
+    branch: master
+    plan: starter
+    buildCommand: cd backend && npm ci && npm run build
+    startCommand: cd backend && npm run start
+    autoDeploy: true
+
+# Note: Do NOT store secrets in this file. Configure the following env vars
+# in the Render dashboard for the service instead:
+# - DATABASE_URL
+# - SUPABASE_URL
+# - SUPABASE_ANON_KEY (if used by server)
+# - SUPABASE_SERVICE_ROLE_KEY (secret)

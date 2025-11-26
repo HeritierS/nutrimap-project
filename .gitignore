@@ -1,1 +1,6 @@
 nutri-map FrontEnd/.env
+
+# Ignore backend environment files and build artifacts
+backend/.env*
+backend/node_modules/
+backend/dist/
