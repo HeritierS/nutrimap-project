@@ -1,1 +1,4 @@
 nutri-map FrontEnd/.env
+
+# Ignore backend env files
+backend/.env*
