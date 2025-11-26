@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 99%;
+    --foreground: 216 19% 16%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 216 19% 16%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 216 19% 16%;
+
+    /* NutriMap Light Blue - Primary */
+    --primary: 207 95% 73%;
+    --primary-foreground: 0 0% 100%;
+
+    /* NutriMap Green - Success/Normal */
+    --success: 84 46% 54%;
+    --success-foreground: 0 0% 100%;
+
+    /* NutriMap Orange - Warning/MAM */
+    --warning: 24 98% 61%;
+    --warning-foreground: 0 0% 100%;
+
+    /* Severe/SAM - Red */
+    --danger: 0 84% 60%;
+    --danger-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 216 19% 16%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 207 95% 73%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 207 95% 73%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 216 19% 16%;
+    --sidebar-primary: 207 95% 73%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 40% 96%;
+    --sidebar-accent-foreground: 216 19% 16%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 207 95% 73%;
+  }
+
+  .dark {
+    /* Dark mode: improved contrast and toned-down bright accents */
+    --background: 220 15% 6%;
+    --foreground: 210 16% 96%;
+
+    --card: 220 14% 8%;
+    --card-foreground: 210 16% 96%;
+
+    --popover: 220 14% 8%;
+    --popover-foreground: 210 16% 96%;
+
+    /* Primary: slightly less saturated in dark so it's pleasant on dark surfaces */
+    --primary: 207 90% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --success: 84 46% 54%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 24 98% 61%;
+    --warning-foreground: 0 0% 100%;
+
+    --danger: 0 84% 60%;
+    --danger-foreground: 0 0% 100%;
+
+    --secondary: 216 24% 18%;
+    --secondary-foreground: 210 16% 96%;
+
+    --muted: 216 24% 14%;
+    --muted-foreground: 210 20% 85%;
+
+    --accent: 207 90% 46%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 216 24% 14%;
+    --input: 216 24% 14%;
+    --ring: 207 90% 60%;
+
+    --sidebar-background: 220 14% 8%;
+    --sidebar-foreground: 210 16% 96%;
+    --sidebar-primary: 207 90% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 216 24% 14%;
+    --sidebar-accent-foreground: 210 16% 96%;
+    --sidebar-border: 216 24% 14%;
+    --sidebar-ring: 207 90% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
