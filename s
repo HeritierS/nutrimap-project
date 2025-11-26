@@ -1,0 +1,12 @@
+backend/package.json
+backend/scripts/assign_children_to_chws2.js
+backend/scripts/diag_create_child.js
+backend/scripts/list_users.js
+backend/scripts/list_users_simple.js
+backend/scripts/smoke.js
+backend/scripts/test_chws.js
+backend/scripts/verify_chw_separation.js
+backend/src/app.ts
+backend/tests/app.test.ts
+docs/annotations/children_controller_walkthrough.md
+docs/images/.gitkeep
