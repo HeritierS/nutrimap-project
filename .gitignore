@@ -1,4 +1,11 @@
 nutri-map FrontEnd/.env
 
+<<<<<<< HEAD
 # Ignore backend env files
 backend/.env*
+=======
+# Ignore backend environment files and build artifacts
+backend/.env*
+backend/node_modules/
+backend/dist/
+>>>>>>> render-setup
