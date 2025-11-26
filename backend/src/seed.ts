@@ -1,5 +1,37 @@
 import prisma from './prismaClient';
-import { hash } from 'bcrypt';
+
+// Runtime bcrypt fallback: try native 'bcrypt', fall back to 'bcryptjs' if native binding unavailable.
+let _bcrypt: any;
+try {
+  // prefer native bcrypt when available
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  _bcrypt = require('bcrypt');
+} catch (e) {
+  // fallback to bcryptjs (pure JS) which avoids native binding issues on some platforms
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  _bcrypt = require('bcryptjs');
+}
+
+async function hashPw(plain: string, rounds = 10): Promise<string> {
+  if (typeof _bcrypt.hashSync === 'function') {
+    // synchronous hash available (bcryptjs and bcrypt provide hashSync)
+    return _bcrypt.hashSync(plain, rounds);
+  }
+  if (typeof _bcrypt.hash === 'function') {
+    // async hash (returns Promise or accepts callback)
+    const res = _bcrypt.hash(plain, rounds);
+    // if a Promise is returned, await it
+    if (res && typeof res.then === 'function') return await res;
+    // otherwise, wrap callback style
+    return await new Promise<string>((resolve, reject) => {
+      _bcrypt.hash(plain, rounds, (err: any, hashed: string) => {
+        if (err) return reject(err);
+        resolve(hashed);
+      });
+    });
+  }
+  throw new Error('No bcrypt hash implementation available');
+}
 import { generateLocalId } from './utils/anthro';
 
 async function main() {
@@ -8,7 +40,7 @@ async function main() {
   await prisma.child.deleteMany();
   await prisma.user.deleteMany();
 
-  const pw = await hash('admin123', 10);
+  const pw = await hashPw('admin123', 10);
   // Use fixed seeded IDs so dev tokens remain consistent across reseeds (convenience)
   const adminId = '0c3ae863-eb0c-4687-8b89-812fdab4444b';
   const chwId = '10aa0fde-fdaf-4aa9-8191-1089e361888d';
@@ -17,15 +49,15 @@ async function main() {
 
   const admin = await prisma.user.create({ data: { id: adminId, name: 'Admin User', email: 'admin@nutrimap.rw', password: pw, role: 'admin', isActive: true } });
 
-  const chwPw = await hash('chw123', 10);
+  const chwPw = await hashPw('chw123', 10);
   // For local dev convenience the seed creates CHWs active so they can log in immediately.
   const chw = await prisma.user.create({ data: { id: chwId, name: 'CHW Demo', email: 'chw@nutrimap.rw', password: chwPw, role: 'chw', isActive: true } });
 
   // Second CHW for testing per-collector data separation
-  const chw2Pw = await hash('chw223', 10);
+  const chw2Pw = await hashPw('chw223', 10);
   const chw2 = await prisma.user.create({ data: { id: chw2Id, name: 'CHW Demo 2', email: 'chw2@nutrimap.rw', password: chw2Pw, role: 'chw', isActive: true } });
 
-  const nutPw = await hash('nutri123', 10);
+  const nutPw = await hashPw('nutri123', 10);
   const nut = await prisma.user.create({ data: { id: nutId, name: 'Nutritionist Demo', email: 'nutri@nutrimap.rw', password: nutPw, role: 'nutritionist', isActive: true } });
 
   const coords = [
