@@ -1,6 +1,28 @@
 import app from './app';
 import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
+
+// Load default `.env` first (safe for local development)
 dotenv.config();
+// If we are explicitly running in production, and a `.env.production` file exists,
+// load it to override values. This prevents accidental production DB usage during dev.
+try {
+  if (process.env.NODE_ENV === 'production') {
+    const prodPath = path.resolve(process.cwd(), '.env.production');
+    if (fs.existsSync(prodPath)) {
+      dotenv.config({ path: prodPath });
+      // eslint-disable-next-line no-console
+      console.log('[startup] Overrode env with .env.production');
+    }
+  } else {
+    // eslint-disable-next-line no-console
+    console.log('[startup] Loaded env from default .env');
+  }
+} catch (e) {
+  // eslint-disable-next-line no-console
+  console.warn('[startup] error while loading env files, proceeding with defaults');
+}
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
