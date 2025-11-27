@@ -12,7 +12,18 @@ async function request(path: string, opts: RequestInit = {}) {
   if (session?.token) headers['Authorization'] = `Bearer ${session.token}`;
   let res: Response;
   try {
-    const url = API_BASE ? `${API_BASE}${path}` : path;
+    let url: string;
+    if (API_BASE) {
+      try {
+        // Use the URL constructor to safely join base + path (handles leading/trailing slashes)
+        url = new URL(path, API_BASE).toString();
+      } catch (e) {
+        // Fallback: manually join ensuring single slash
+        url = `${API_BASE.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`;
+      }
+    } else {
+      url = path;
+    }
     res = await fetch(url, { headers: { ...headers, ...(opts.headers as any) }, ...opts });
   } catch (err: any) {
     // Network-level errors (connection refused, DNS, CORS preflight failures that manifest here)
