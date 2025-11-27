@@ -1,7 +1,10 @@
 import { storage } from './storage';
 import { User, Child } from './types';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+// Normalize VITE API base: remove trailing slash if present so joining
+// with paths that start with '/' doesn't produce '//' in the final URL.
+const rawBase = import.meta.env.VITE_API_URL || '';
+const API_BASE = rawBase ? rawBase.replace(/\/+$/, '') : '';
 
 async function request(path: string, opts: RequestInit = {}) {
   const session = storage.getSession();
@@ -9,7 +12,8 @@ async function request(path: string, opts: RequestInit = {}) {
   if (session?.token) headers['Authorization'] = `Bearer ${session.token}`;
   let res: Response;
   try {
-    res = await fetch(`${API_BASE}${path}`, { headers: { ...headers, ...(opts.headers as any) }, ...opts });
+    const url = API_BASE ? `${API_BASE}${path}` : path;
+    res = await fetch(url, { headers: { ...headers, ...(opts.headers as any) }, ...opts });
   } catch (err: any) {
     // Network-level errors (connection refused, DNS, CORS preflight failures that manifest here)
     const base = API_BASE || 'current origin';
